@@ -3,10 +3,7 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
 <div class="container mt-5">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+
                 <div class="card-body">
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success">
@@ -18,18 +15,15 @@
                         </div>
                     @endif
                 </div>
-            </div>
-        </div>
-    </div>
     <!-- Tombol Create -->
-    @auth
+    
+    @if (Auth::User()->level == 'admin')
     <div class="mb-3">
         <a href="{{ route('create') }}" class="btn btn-primary">
             Create
         </a>
     </div>
-    @endauth
-
+    @endif
     @if (@session('status'))
         <script>
             alert('{{ session('status') }}');
@@ -41,6 +35,7 @@
             <tr class="table-primary">
                 <th scope="col">NO</th>
                 <th scope="col">ID</th>
+                <th scope="col">Gambar</th>
                 <th scope="col">Judul</th>
                 <th scope="col">Penulis</th>
                 <th scope="col">Harga</th>
@@ -54,25 +49,30 @@
             <tr>
                 <th scope="row">{{ $index + 1 }}</th>
                 <td>{{ $book->id }}</td>
+                <td>
+                    <img src="{{ asset('storage/img/'.$book->image) }}" class="rounded"
+                    style="width: 150px">
+                </td>
                 <td>{{ $book->title }}</td>
                 <td>{{ $book->author }}</td>
                 <td>{{ "Rp" . number_format($book->harga, 2, ',', '.') }}</td>
                 <td>{{ $book->tanggal_terbit }}</td>
 
-                @if (Auth::User())
+                
                 <td>
-                    <!-- Form untuk Delete -->
-                    <form action="{{ route('destroy', $book->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                    <!-- Tombol Edit -->
-                    <a href="{{ route('edit', $book->id) }}" class="btn btn-info btn-sm">Edit</a>
-                </td>
-                @else
-                <td></td>
-                @endif
+                    @if (Auth::User()->level == 'admin')
+                        <!-- Form untuk Delete -->
+                        <form action="{{ route('destroy', $book->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku ini?')" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                        <!-- Tombol Edit -->
+                        <a href="{{ route('edit', $book->id) }}" class="btn btn-info btn-sm">Edit</a>
+                    @endif
+                    <!-- Tombol Detail yang sama untuk Admin dan User -->
+                    <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Detail</a>
+                </td>   
             </tr>
             @endforeach
         </tbody>

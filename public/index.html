@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .book-list {
+            width: 50%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        .book-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .book-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .book-item p {
+            margin: 5px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="book-list">
+    <h1>Book List</h1>
+    <div id="books"></div>
+</div>
+
+<script>
+    async function fetchBooks() {
+        try {
+            // Fetch the data from the API endpoint
+            const response = await fetch('http://127.0.0.1:8000/api/books'); // Adjust URL if necessary
+            if (!response.ok) throw new Error("Network response was not ok");
+            const data = await response.json();
+
+            // Check if the response status is true
+            if (data.status) {
+                displayBooks(data.data.data); // Display the list of books
+            } else {
+                document.getElementById('books').innerHTML = '<p>No books found</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching books:', error);
+            document.getElementById('books').innerHTML = '<p>Failed to load books.</p>';
+        }
+    }
+
+    function displayBooks(books) {
+        const booksContainer = document.getElementById('books');
+        booksContainer.innerHTML = ''; // Empty the container before adding new content
+
+        // Iterate through the books and create HTML elements for each
+        books.forEach(book => {
+            const bookElement = document.createElement('div');
+            bookElement.classList.add('book-item');
+
+            bookElement.innerHTML = `
+                <h3>${book.title}</h3>
+                <p>by ${book.author}</p>
+                <p>Price: ${book.harga}</p>
+                <p>Published on: ${book.tanggal_terbit}</p>
+            `;
+
+            booksContainer.appendChild(bookElement);
+        });
+    }
+
+    // Call the fetchBooks function to load books on page load
+    fetchBooks();
+</script>
+
+</body>
+</html>

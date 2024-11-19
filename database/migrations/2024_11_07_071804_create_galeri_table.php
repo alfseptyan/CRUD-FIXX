@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books',function(Blueprint $table){
-            $table->id();
-            $table->string('title');
-            $table->string('author');
-            $table->string('harga');
-            $table->string('tanggal_terbit');
-            $table->string('image');
-            $table->timestamps();
-        });
+        Schema::create('galleries', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('book_id')->constrained()->onDelete('cascade'); // Relasi ke tabel books
+        $table->string('image'); // Kolom untuk menyimpan gambar
+        $table->timestamps();
+    });
     }
 
     /**
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('galleries');
     }
 };

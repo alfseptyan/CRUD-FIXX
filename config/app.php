@@ -81,8 +81,9 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
+    
     'locale' => 'en',
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -155,7 +156,8 @@ return [
     */
 
     'providers' => [
-
+        Intervention\Image\ImageServiceProvider::class,
+    
         /*
          * Laravel Framework Service Providers...
          */
@@ -181,6 +183,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        
 
         /*
          * Package Service Providers...
@@ -209,7 +212,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Image' => Intervention\Image\Facades\Image::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+
 
 ];

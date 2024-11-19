@@ -18,8 +18,6 @@ class LoginRegisterController extends Controller
             $this->middleware('guest')->except(['logout']);
         }
 
-
-
         /**
         * Display a registration form.
         *
