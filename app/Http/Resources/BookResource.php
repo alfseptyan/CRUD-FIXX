@@ -9,7 +9,6 @@ class BookResource extends JsonResource
 {
     public $status;
     public $message;
-    public $resource;
 
     /**
      * Create a new resource instance.
@@ -34,9 +33,24 @@ class BookResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'author' => $this->author,
+            'published_at' => $this->published_at,
+        ];
+    }
+
+    /**
+     * Add additional metadata.
+     *
+     * @param Request $request
+     * @return array
+     */
+    public function with($request): array
+    {
+        return [
             'status' => $this->status,
             'message' => $this->message,
-            'data' => parent::toArray($request),
         ];
     }
 }
