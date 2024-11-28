@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('harga');
             $table->string('tanggal_terbit');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

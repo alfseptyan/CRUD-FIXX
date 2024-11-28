@@ -17,12 +17,16 @@
                 </div>
     <!-- Tombol Create -->
     
-    @if (Auth::User()->level == 'admin')
+    @if (Auth::User())
     <div class="mb-3">
         <a href="{{ route('create') }}" class="btn btn-primary">
             Create
         </a>
     </div>
+    <div class="mb-3">
+        <a href="{{route('reviews.create')}}" class="btn btn-secondary">
+            Review
+        </a>
     @endif
     @if (@session('status'))
         <script>

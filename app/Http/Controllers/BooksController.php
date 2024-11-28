@@ -138,13 +138,3 @@ public function destroy($id)
     }
 }
 
-// public function search(Request $request){
-//     $batas = 5;
-//     $search = $request->search;
-//     $books = Books::where('title', 'like', "%" . $search . "%")->orwhere('author','like','%'.
-//     $search.'%')->paginate($batas);
-//     $totalBooks = $books->count();
-//     $totalHarga = Books::sum('harga');
-//     $no = $batas * ($books->currentPage() - 1);
-//     return view('search', compact('books', 'no', 'search', 'totalBooks', 'totalHarga'));
-// }

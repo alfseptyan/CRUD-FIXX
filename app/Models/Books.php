@@ -14,4 +14,9 @@ class Books extends Model
     {
         return $this->hasMany(Gallery::class, 'book_id', 'id');
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
