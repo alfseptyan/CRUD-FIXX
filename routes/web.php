@@ -15,6 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku', [BooksController::class, 'index'])->name('buku');
     Route::get('/buku/search', [BooksController::class, 'search'])->name('search');
     Route::get('/buku/{id}/detail', [BooksController::class, 'show'])->name('books.show');
+    Route::get('/reviews/{id}/show', [ReviewController::class, 'show'])->name('reviews.show');
+    Route::get('/tags/{tag}', [ReviewController::class, 'showBooksByTag'])->name('tags.show');
 
     // Admin-specific routes with 'auth' and 'admin' middleware
     Route::middleware(['admin'])->group(function () {
@@ -30,8 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['reviewer'])->group(function () {
         Route::get('/reviews/create', [ReviewController::class, 'index'])->name('reviews.create');
         Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-        Route::get('/reviews/{id}/show', [ReviewController::class, 'show'])->name('reviews.show');
-        Route::get('/tags/{tag}', [ReviewController::class, 'showBooksByTag'])->name('tags.show');
+        
+    });
+    Route::middleware(['level'])->group(function () {
+        Route::get('/reviews/create', [ReviewController::class, 'index'])->name('reviews.create');
+        Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     });
 });
 
@@ -44,6 +49,7 @@ Route::controller(LoginRegisterController::class)->group(function() {
 
     Route::post('/logout', 'logout')->name('logout');
 });
+
 
 Route::get('/sendemail', [SendEmailController::class, 'index'])->name('kirim-email');
 Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');  

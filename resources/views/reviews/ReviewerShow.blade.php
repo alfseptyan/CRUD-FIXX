@@ -5,8 +5,7 @@
     @if($reviews->isNotEmpty()) <!-- Pastikan reviews tidak kosong -->
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h1 class="h4">Review oleh {{ $reviews->first()->user->name }}</h1>
-            </div>
+                <h1 class="h4">Review Buku</h1>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -15,9 +14,9 @@
                                 <li class="list-group-item mb-3">
                                     <div class="d-flex justify-content-between">
                                         <strong>{{ $review->book->title }}</strong>
-                                        <small class="text-muted">Ditulis pada: {{ $review->created_at->format('d M Y') }}</small>
+                                        <small class="text-muted">Ditulis oleh: {{ $review->user->name }} pada {{ $review->created_at->format('d M Y') }}</small>
                                     </div>
-                                    <p class="mt-2">{{ $review->review }}</p>
+                                    <p class="mt-2"> Review : {{ $review->review }}</p>
                                     <div class="mt-3">
                                         <strong>Tags:</strong>
                                         <ul class="list-inline">

@@ -17,12 +17,15 @@
                 </div>
     <!-- Tombol Create -->
     
-    @if (Auth::User())
+    
+    @if (Auth::User()->level == 'admin')
     <div class="mb-3">
         <a href="{{ route('create') }}" class="btn btn-primary">
             Create
         </a>
     </div>
+    @endif
+    @if (Auth::User()->level == 'internal_reviewer' || Auth::User()->level == 'admin')
     <div class="mb-3">
         <a href="{{route('reviews.create')}}" class="btn btn-secondary">
             Review
@@ -74,8 +77,11 @@
                         <!-- Tombol Edit -->
                         <a href="{{ route('edit', $book->id) }}" class="btn btn-info btn-sm">Edit</a>
                     @endif
+
                     <!-- Tombol Detail yang sama untuk Admin dan User -->
+
                     <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Detail</a>
+                    <a href="{{ route('reviews.show', $book->id) }}" class="btn btn-secondary btn-sm">Review</a>
                 </td>   
             </tr>
             @endforeach
