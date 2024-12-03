@@ -53,3 +53,7 @@ Route::controller(LoginRegisterController::class)->group(function() {
 
 Route::get('/sendemail', [SendEmailController::class, 'index'])->name('kirim-email');
 Route::post('/post-email', [SendEmailController::class, 'store'])->name('post-email');  
+
+Route::post('/buku/{id}/editorial-pick', [BooksController::class, 'toggleEditorialPick'])->name('books.toggleEditorialPick');
+
+

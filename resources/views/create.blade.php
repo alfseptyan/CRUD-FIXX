@@ -6,7 +6,6 @@
     <form action="{{ route('buku.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        
         <!-- Title -->
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
@@ -24,23 +23,38 @@
             <label for="harga" class="form-label">Harga</label>
             <input type="number" name="harga" id="harga" class="form-control" placeholder="Enter book price" required>
         </div>
+
+        <div class="mb-3">
+            <label for="discount" class="form-label">Diskon (%):</label>
+            <input type="number" name="discount" id="discount" class="form-control" placeholder="Enter discount">
+        </div>
         
         <!-- Tanggal Terbit -->
         <div class="mb-3">
             <label for="tanggal_terbit" class="form-label">Tanggal Terbit</label>
             <input type="date" name="tanggal_terbit" id="tanggal_terbit" class="form-control" placeholder="yyyy/mm/dd">
         </div>
+
         <!-- Image -->
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
             <input type="file" name="image" id="image" class="form-control" required>
         </div>
-        <div id="gallery-images" class="form-group">
+
+    </div>
+    <div id="gallery-container">
+        <div class="gallery-item mb-3">
             <label for="gallery_images">Tambah Gambar Galeri:</label>
-            <input type="file" name="gallery_images[]" class="form-control mb-2">
+            <input type="file" name="gallery_images[]" class="form-control mb-2" required>
+            <label for="captions[]">Caption:</label>
+            <input type="text" name="gallery_captions[]" class="form-control" placeholder="Enter caption" required>
         </div>
-        <button type="button" id="add-gallery" class="btn btn-secondary">Tambah Gambar Galeri</button>
-        
+    </div>
+    <button type="button" id="add-gallery" class="btn btn-secondary">Tambah Gambar Galeri</button>
+
+        <!-- Button untuk Menambahkan Gambar Galeri -->
+        <button type="button" id="add-gallery" class="btn btn-secondary mb-3">Add Gallery Image</button>
+
         <!-- Submit and Back Buttons -->
         <div class="mt-4 d-flex justify-content-between">
             <!-- Tombol Back -->
@@ -54,18 +68,24 @@
         </div>
         
     </form>
+
     <script>
-        // Menambahkan input file galeri gambar dinamis
+        // Tambahkan input file galeri dan caption secara dinamis
         document.getElementById('add-gallery').addEventListener('click', function() {
-            const galleryImagesDiv = document.getElementById('gallery-images');
-            const newInput = document.createElement('input');
-            newInput.setAttribute('type', 'file');
-            newInput.setAttribute('name', 'gallery_images[]');
-            newInput.classList.add('form-control', 'mb-2');
-            galleryImagesDiv.appendChild(newInput);
+            const galleryContainer = document.getElementById('gallery-container');
+            const newGalleryItem = document.createElement('div');
+            newGalleryItem.classList.add('gallery-item', 'mb-3');
+            newGalleryItem.innerHTML = `
+                <label for="gallery_images">Tambah Gambar Galeri:</label>
+                <input type="file" name="gallery_images[]" class="form-control mb-2" required>
+                <label for="captions[]">Caption:</label>
+                <input type="text" name="captions[]" class="form-control" placeholder="Enter caption" required>
+            `;
+            galleryContainer.appendChild(newGalleryItem);
         });
     </script>
 </div>
+
 @if ($errors->any())
     <ul class="alert alert-danger">
     @foreach ($errors->all() as $error)

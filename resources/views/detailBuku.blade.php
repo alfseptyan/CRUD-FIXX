@@ -21,15 +21,19 @@
 
             <hr>
 
-            <!-- Menampilkan Galeri Gambar -->
-            <h5>Galeri Gambar Buku</h5>
-            <div class="row">
-                @foreach($book->galleries as $gallery)
-                <div class="col-md-3 mb-3">
-                    <img src="{{ asset('storage/galleries/'.$gallery->image) }}" class="img-fluid rounded" alt="Gallery Image">
-                </div>
-                @endforeach
-            </div>
+             <!-- Menampilkan Galeri Gambar -->
+             <h5 class="mb-3">Galeri Gambar Buku</h5>
+             <div class="row g-3">
+                 @foreach($book->galleries as $gallery)
+                 <div class="col-md-3 col-sm-4 text-center">
+                     <img src="{{ asset('storage/galleries/'.$gallery->image) }}" 
+                          class="img-fluid rounded shadow-sm mb-2" 
+                          style="max-height: 150px; object-fit: cover;" 
+                          alt="Gallery Image">
+                     <p class="text-muted small">{{ $gallery->caption ?? 'Tidak ada keterangan' }}</p>
+                 </div>
+                 @endforeach
+             </div>
 
             <a href="{{ route('buku') }}" class="btn btn-secondary mt-3">Kembali</a>
         </div>

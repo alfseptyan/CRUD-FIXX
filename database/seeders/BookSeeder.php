@@ -10,13 +10,13 @@ class BookSeeder extends Seeder
 {
     public function run(): void
     {
-        for ($i=0; $i < 10; $i++) {    
+        // Tambahkan data secara manual
         Books::create([
-            'title' => fake()->sentence(3),
-            'author'=> fake()->name(),
-            'harga'=> fake()->numberBetween(10000, 100000),
-            'tanggal_terbit'=> fake()->date(),
+            'title' => 'Koala Kumal',
+            'author' => 'Raditya Dika',
+            'harga' => 85000,
+            'tanggal_terbit' => '2015-08-01',
+            'image' => 'images/Koala Kumal.png', // Pastikan file ini ada di public/images
         ]);
-    }
     }
 }

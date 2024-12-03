@@ -25,6 +25,7 @@
         <button type="button" id="add-tag" class="btn btn-secondary">Tambah Tag</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
+
         <script>
             document.getElementById('add-tag').addEventListener('click', function() {
                 const tagDiv = document.getElementById('tag');
@@ -35,5 +36,6 @@
                 tagDiv.appendChild(newInput);
             });
         </script>
+    
 </div>
 @endsection

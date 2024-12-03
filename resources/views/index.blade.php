@@ -37,7 +37,32 @@
         </script>
     @endif
 
-    <table  class="datatable align-middle table table-light table-striped text-center">
+        <!-- Section for Editorial Picks -->
+    <div class="container mt-5">
+        <h2>Editorial Picks</h2>
+        <div class="row">
+            @if ($editorialPicks->isEmpty())
+                <p class="text-muted">Tidak ada buku dalam Editorial Picks saat ini.</p>
+            @else
+                @foreach ($editorialPicks as $book)
+                    <div class="col-md-2">
+                        <div class="card mb-2">
+                            <img src="{{ asset('storage/img/'.$book->image) }}" class="card-img-top" alt="{{ $book->title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $book->title }}</h5>
+                                <p class="card-text">Penulis: {{ $book->author }}</p>
+                                <p class="card-text">Harga: {{ "Rp" . number_format($book->harga, 2, ',', '.') }}</p>
+                                <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+        </div>
+    </div>
+
+
+    <table class="datatable align-middle table table-light table-striped text-center">
         <thead class="thead-light">
             <tr class="table-primary">
                 <th scope="col">NO</th>
@@ -46,6 +71,8 @@
                 <th scope="col">Judul</th>
                 <th scope="col">Penulis</th>
                 <th scope="col">Harga</th>
+                <th scope="col">Diskon</th>
+                <th scope="col">Harga Setelah Diskon</th>
                 <th scope="col">Tanggal Terbit</th>
                 <th scope="col">Aksi</th>
             </tr>
@@ -57,15 +84,17 @@
                 <th scope="row">{{ $index + 1 }}</th>
                 <td>{{ $book->id }}</td>
                 <td>
-                    <img src="{{ asset('storage/img/'.$book->image) }}" class="rounded"
-                    style="width: 150px">
+                    <img src="{{ asset('storage/img/'.$book->image) }}" class="rounded" style="width: 150px">
                 </td>
                 <td>{{ $book->title }}</td>
                 <td>{{ $book->author }}</td>
                 <td>{{ "Rp" . number_format($book->harga, 2, ',', '.') }}</td>
-                <td>{{ $book->tanggal_terbit }}</td>
+                <td>{{ $book->discount }}%</td>
+                <td>{{ "Rp" . number_format($book->discounted_price, 2, ',', '.') }}</td>
+
 
                 
+                <td>{{ $book->tanggal_terbit }}</td>
                 <td>
                     @if (Auth::User()->level == 'admin')
                         <!-- Form untuk Delete -->
@@ -76,16 +105,24 @@
                         </form>
                         <!-- Tombol Edit -->
                         <a href="{{ route('edit', $book->id) }}" class="btn btn-info btn-sm">Edit</a>
+                        <!-- Tombol Editorial Pick -->
+                        <form action="{{ route('books.toggleEditorialPick', $book->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm {{ $book->is_editorial_pick ? 'btn-success' : 'btn-secondary' }}">
+                                {{ $book->is_editorial_pick ? 'Unmark Editorial Pick' : 'Mark Editorial Pick' }}
+                            </button>
+                        </form>
                     @endif
-
+        
                     <!-- Tombol Detail yang sama untuk Admin dan User -->
-
                     <a href="{{ route('books.show', $book->id) }}" class="btn btn-primary btn-sm">Detail</a>
                     <a href="{{ route('reviews.show', $book->id) }}" class="btn btn-secondary btn-sm">Review</a>
                 </td>   
             </tr>
             @endforeach
         </tbody>
+        
+
     </table>
 
     <!-- Bagian untuk menampilkan total buku dan total harga -->
